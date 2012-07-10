@@ -1,5 +1,5 @@
 # Graphite.js
-## a javascript client library for working with [Graphite](http://graphite.wikidot.com/)
+### a javascript client library for working with [Graphite](http://graphite.wikidot.com/)
 
 Graphite provides a
 [render api](http://graphite.readthedocs.org/en/latest/render_api.html)
