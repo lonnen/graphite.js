@@ -49,15 +49,3 @@ test("allows ludicrous values", function() {
     url = Graphite().graphType(1337);
     equal(url, "/render?graphType=1337");
 });
-
-test("does not allow invalid parameters in initial config", function() {
-    raises(function() {
-        Graphite({invalid: "param"})
-    }, Error);
-});
-
-test("initial config does not allow a non-object", function() {
-    raises(function() {
-        Graphite(1);
-    }, TypeError);
-});

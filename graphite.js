@@ -3,60 +3,78 @@ var Graphite = (function() {
         config = {
             host: "/render",
         },
-        list = ["targets", //special variant
-                "from",
-                "until",
-                "format", //default: png [png, raw, csv, json, svg, pickle]
-                //"rawData", //deprecated
-                "areaAlpha", //default: 1.0 [0.0 - 1.0]
-                "areaMode", // default: none [none, first, all, stacked]
-                "bgcolor", // default: graphTemplates.conf || #000000
-                "cacheTimeout", // default: local_settings.py
-                "colorList" //default: graphTemplates.conf
-                ];
+        parameter_list = [
+             "targets",
+             "from",
+             "until",
+             "format",
+             //"rawData", //deprecated
+             "areaAlpha",
+             "areaMode",
+             "bgcolor",
+             "cacheTimeout",
+             "colorList"
+        ];
 
-    function ValueError(message) {
-        this.name = "ValueError";
-        this.message = message || "right type, invalid value";
-    }
-    ValueError.prototype = new Error();
-    ValueError.prototype.constructor = ValueError;
-
-    function g() {
+    /* Public: functor providing an interface to the internal closure state
+     *
+     *
+     * initialConfig    - an object describing initial parameters and values
+     *                    (default: {})
+     *
+     * Examples
+     *
+     *  Graphite()
+     *
+     *  Graphite({from: "-24hours"})
+     *
+     * Returns itself so that methods can be chained
+     */
+    function g(initialConfig) {
         if (!arguments.length) {
             return g;
         }
 
-        initial_config = arguments[0];
-        if (typeof initial_config !== "object") {
-            throw new TypeError("an object is required");
-        }
-
-        // convert from a list to an faux-set object for membership testing
-        // ['a','b','c'] -> { 'a':0, 'b': 1, 'c': 2}
-        apiParams = list.reduce(function(p, c, i) {
-            p[c] = i;
-            return p;
-        }, {});
-
-        for (var i in initial_config) {
-            if (!(i in apiParams)) {
-                throw new ValueError("\"" + i + "\" is not a valid api parameter.");
-            }
-            config[i] = initial_config[i];
+        for (var i in initialConfig) {
+            config[i] = initialConfig[i];
         }
 
         return g;
     }
 
-    list.map(function(prop) {
-        g[prop] = function() {
+    /* Public: Get or set request parameters. When called without arguments it
+     *         acts as a getter and returns the parameter's value or undefined.
+     *         When called with arguments, the 0th argument is set as the
+     *         parameter's value and the functor is returned for chainability.
+     *
+     * value    - the value to be set for the parameter (optional).
+     *
+     * Examples
+     *
+     *   Graphite().target(["some.key"])
+     *
+     * Returns the functor object for further chaining.
+     *
+     *   Graphite().from("-24hours").from()
+     *
+     * Returns "-24hours", the value of the from parameter.
+     *
+     * Signature
+     *
+     *  <parameter>([value])
+     *
+     * parameter - the query parameter to set. see the parameter_list variable
+     *             enumeration of all the legal parameters. see the graphite
+     *             render api doc for param defaults
+     */
+    parameter_list.map(function(prop) {
+        g[prop] = function(value) {
             var j;
             if (!arguments.length) {
                 return config[prop];
             }
 
-            config[prop] = arguments[0];
+            config[prop] = value;
             return g;
         };
     });
