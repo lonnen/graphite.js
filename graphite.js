@@ -1,6 +1,7 @@
 (function(win) {
     Graphite = (function() {
-        return function() {
+        // pass in an initial config option
+        return function(ic) {
             var config = {
                     host: "/render",
                 },
@@ -92,11 +93,12 @@
              * Returns itself so that methods can be chained
              */
             function g(initialConfig) {
+                var i;
                 if (!arguments.length) {
                     return g;
                 }
 
-                for (var i in initialConfig) {
+                for (i in initialConfig) {
                     config[i] = initialConfig[i];
                 }
 
@@ -130,7 +132,6 @@
              */
             parameter_list.map(function(prop) {
                 g[prop] = function(value) {
-                    var j;
                     if (!arguments.length) {
                         return config[prop];
                     }
@@ -157,10 +158,10 @@
                 var url = config['host'] + "?",
                     properties = [],
                     prop, i;
-                // to get a consistent ordering for url properties, extract all the
-                // property names, sort them, and then construct the url. useful for
-                // testing.
-                for (var prop in config) {
+                // to get a consistent ordering for url properties, extract
+                // all the property names, sort them, and then construct the
+                // url. useful for testing.
+                for (prop in config) {
                     if (prop === "host") {
                         continue;
                     }
@@ -182,7 +183,8 @@
                 return url.substring(0, url.length - 1);
             }
 
-            return g;
+            // pass in any initial config
+            return g(ic);
         };
     })();
     win.Graphite = Graphite;
