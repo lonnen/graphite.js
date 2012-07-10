@@ -1,8 +1,9 @@
-# Graphite.js, a client javascript library for working with [Graphite](http://graphite.wikidot.com/)
+# Graphite.js
+## a javascript client library for working with [Graphite](http://graphite.wikidot.com/)
 
 Graphite provides a
 [render api](http://graphite.readthedocs.org/en/latest/render_api.html)
-for retrieving images. Minimally, you will need to provide a target to graph.
+for acessing its data. Minimally, you will need to provide a target to graph.
 If not provided, the host is assumed to be "/render", all other options have
 default values in graphite and are not provided unless specified.
 

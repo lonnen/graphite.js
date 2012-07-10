@@ -4,12 +4,12 @@ test("noop", function() {
 });
 
 test("minimal functional example", function() {
-    var url = Graphite().targets(["some.key"]).url();
+    var url = Graphite().target(["some.key"]).url();
     equal(url, "/render?target=some.key");
 });
 
-test("multiple targets requre multiple target keys", function() {
-    var url = Graphite.targets(["some.key", "another.key"]).url();
+test("multiple targets requre an array of target keys", function() {
+    var url = Graphite.target(["some.key", "another.key"]).url();
     equal(url, "/render?target=some.key&target=another.key");
 });
 
@@ -23,7 +23,7 @@ test("parameters can be initialized in constructor", function() {
 });
 
 test("parameters can be accumulated through chaning", function() {
-    var url = Graphite().from("-2days").until("now").targets(["some.key"]);
+    var url = Graphite().from("-2days").until("now").target(["some.key"]);
     equal(url, "/render?target=some.key&from=-2days&until=now");
 });
 
@@ -48,4 +48,16 @@ test("allows ludicrous values", function() {
     equal(url, "/render?graphType=lolwut?");
     url = Graphite().graphType(1337);
     equal(url, "/render?graphType=1337");
+});
+
+test("does not allow invalid parameters in initial config", function() {
+    raises(function() {
+        Graphite({invalid: "param"})
+    }, Error);
+});
+
+test("initial config does not allow a non-object", function() {
+    raises(function() {
+        Graphite(1);
+    }, TypeError);
 });
