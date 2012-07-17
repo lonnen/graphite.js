@@ -29,7 +29,7 @@ set by method chaining.
         "some.other.key"
       ]);
     // not recommended, but still works
-    Graphite({from: "-2days"})({height: "300"})()({targets:["bad.ideas"]});
+    Graphite()({from: "-2days"})({height: "300"}).targets(["bad.ideas"])().url();
 
 Method names match parameters in the Graphite api documentation, with the
 following exceptions:
