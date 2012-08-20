@@ -1,15 +1,24 @@
 # Graphite.js
 ### a javascript client library for working with [Graphite](http://graphite.wikidot.com/)
 
-Graphite provides a
-[render api](http://graphite.readthedocs.org/en/latest/render_api.html)
-for acessing its data. Minimally, you will need to provide a target to graph.
-If not provided, the host is assumed to be "/render", all other options are not
-provided unless specified, falling back to your graphite configuration's
-defaults.
+Graphite.js provides a consistent, flexible way to interact with the Graphite
+[render api](http://graphite.readthedocs.org/en/latest/render_api.html). It has
+no external dependencies.
+
+## Getting started
+
+Graphite.js provides a chainable api, with the special `url` method that
+returns a url corresponding to the accumulated property values. The
+minimum useful url requires a target (metric) to graph. The Graphite
+host is assumed to be "/render", but no other properties are provided default
+values. Instead, your Graphite server's configuration specifies what defaults
+it will use in generating graphs.
 
     Graphite().url() == "/render";
     Graphite().targets(["some.key"]).url() == "/render?target=some.key";
+    Graphite().host('http://metrics.biz/render')
+              .targets(["some.key"])
+              .url() == "http://metrics.biz/render?target=some.key";
 
 Parameters can be initialized by providing a dictionary to the functor, or
 set by method chaining.
@@ -38,6 +47,8 @@ following exceptions:
 * `target` is not present, since graphite expects multiple values of target
       with multiple keys. Instead, `targets` is provided and expects an array
       of values for graph targets
+* `url` is a getter only that returns the url corresponding to the current
+      internal state.
 
 A complete list of valid parameters is in the source documentation. The
 Graphite object uses the **closures with getter-setter methods** pattern for
