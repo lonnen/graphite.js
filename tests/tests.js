@@ -45,7 +45,7 @@ test("allows non-string values", 1, function() {
 
 test("allows ludicrous values", 2, function() {
     var url = Graphite().graphTypes("lolwut?").url();
-    equal(url, "/render?graphTypes=lolwut%3f");
+    equal(url, "/render?graphTypes=lolwut%3F");
     url = Graphite().graphTypes(1337).url();
     equal(url, "/render?graphTypes=1337");
 });
