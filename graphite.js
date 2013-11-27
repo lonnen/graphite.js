@@ -173,11 +173,11 @@
                     if (prop === "targets") {
                         targets = config[prop];
                         for (j = 0; j < targets.length; j++) {
-                            url += "target=" + targets[j] + "&";
+                            url += "target=" + encodeURIComponent(targets[j]) + "&";
                         }
                         continue;
                     }
-                    url += prop + "=" + config[prop] + "&";
+                    url += encodeURIComponent(prop) + "=" + encodeURIComponent(config[prop]) + "&";
                 }
                 // pretty the url for the people
                 return url.substring(0, url.length - 1);
