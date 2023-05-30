@@ -1,6 +1,8 @@
 # Graphite.js
 ### a javascript client library for working with [Graphite](http://graphite.wikidot.com/)
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 Graphite.js provides a consistent, flexible way to interact with the Graphite
 [render api](http://graphite.readthedocs.org/en/latest/render_api.html). It has
 no external dependencies.
